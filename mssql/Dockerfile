@@ -1,5 +1,12 @@
 FROM rustedwizard/centos:7
 
+LABEL name="microsoft/mssql-server-linux" \
+      vendor="Microsoft" \
+      version="14.0" \
+      release="1" \
+      summary="MS SQL Server 2017" \
+      description="Microsoft Sql Server 2017 container"
+
 RUN curl -o /etc/yum.repos.d/mssql-server.repo https://packages.microsoft.com/config/rhel/7/mssql-server-2017.repo \
     ; curl -o /etc/yum.repos.d/msprod.repo https://packages.microsoft.com/config/rhel/7/prod.repo \
     ; ACCEPT_EULA=Y yum install -y mssql-server mssql-tools unixODBC-devel \
