@@ -1,4 +1,4 @@
-FROM rustedwizard/centos:7
+FROM rustedregistry.azurecr.io/centos:latest
 
 ENV GOLANG_VERSION 1.12.7
 
