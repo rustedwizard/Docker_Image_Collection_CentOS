@@ -1,6 +1,6 @@
 FROM rustedregistry.azurecr.io/centos:latest
 
-ENV GOLANG_VERSION 1.12.7
+ENV GOLANG_VERSION 1.13.5
 
     #update yum database
 RUN yum update -y \
