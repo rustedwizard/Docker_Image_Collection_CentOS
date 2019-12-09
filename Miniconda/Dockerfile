@@ -1,4 +1,4 @@
-FROM rustedwizard/centos:7
+FROM rustedregistry.azurecr.io/centos:latest
 
     #update yum
 RUN yum update -y \
