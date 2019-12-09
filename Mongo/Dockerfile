@@ -1,4 +1,4 @@
-FROM rustedwizard/centos:7
+FROM rustedregistry.azurecr.io/centos:latest
 
 ENV GOSU_VERSION=1.11 \
     JSYAML_VERSION=3.13.0
