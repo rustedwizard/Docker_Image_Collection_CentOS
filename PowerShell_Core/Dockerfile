@@ -1,7 +1,7 @@
-FROM rustedwizard/centos:7
+FROM centos:7
 
-ARG PS_VERSION=6.2.0
-ARG PACKAGE_VERSION=6.2.0
+ARG PS_VERSION=7.0.3
+ARG PACKAGE_VERSION=7.0.3
 ARG PS_PACKAGE=powershell-${PACKAGE_VERSION}-1.rhel.7.x86_64.rpm
 ARG PS_PACKAGE_URL=https://github.com/PowerShell/PowerShell/releases/download/v${PS_VERSION}/${PS_PACKAGE}
 
@@ -41,4 +41,4 @@ RUN curl -sSL ${PS_PACKAGE_URL} -o /tmp/powershell.rpm \
             Start-Sleep -Seconds 6 ; \
           }"
 
-CMD [ "pwsh"]
+CMD ["pwsh"]

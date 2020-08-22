@@ -1,7 +1,7 @@
-FROM rustedwizard/base:centos
+FROM centos:7
 
      #specify gosu version
-ENV GOSU_VERSION=1.11
+ENV GOSU_VERSION=1.12
 
     #add users for postgresql
 RUN groupadd -r postgres --gid=1000 \
@@ -21,7 +21,7 @@ RUN groupadd -r postgres --gid=1000 \
     #since postgresql already provide repo for postgresql 11 download, so this image will just take it and use it
     ; yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm -y \
     #install postgresql component
-    ; yum install postgresql11 postgresql11-server -y \
+    ; yum install postgresql12 postgresql12-server -y \
     #clean up yum database
     ; yum clean all \
     #make all neccsary directories for postgresql
@@ -30,11 +30,11 @@ RUN groupadd -r postgres --gid=1000 \
     #change permission
     ; chown -R postgres:postgres /var/lib/postgresql \
     #modify settings of postgresql.
-    ; sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /usr/pgsql-11/share/postgresql.conf.sample \
-    ; grep -F "listen_addresses = '*'" /usr/pgsql-11/share/postgresql.conf.sample
+    ; sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /usr/pgsql-12/share/postgresql.conf.sample \
+    ; grep -F "listen_addresses = '*'" /usr/pgsql-12/share/postgresql.conf.sample
 
     #set environment variable
-ENV PATH=$PATH:/usr/pgsql-11/bin \
+ENV PATH=$PATH:/usr/pgsql-12/bin \
     PGDATA=/var/lib/postgresql/data
 
     #create data directory

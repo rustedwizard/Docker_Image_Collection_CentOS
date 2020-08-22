@@ -1,7 +1,7 @@
-FROM rustedregistry.azurecr.io/centos:latest
+FROM centos:7
 
-ENV GOSU_VERSION=1.11 \
-    JSYAML_VERSION=3.13.0
+ENV GOSU_VERSION=1.12 \
+    JSYAML_VERSION=3.14.0
 
     #add user
 RUN groupadd -r mongodb \
@@ -23,7 +23,7 @@ RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/downloa
     ; mkdir /docker-entrypoint-initdb.d
 
      #add mongodb repo
-COPY mongodb-org-4.0.repo /etc/yum.repos.d
+COPY mongodb-org-4.4.repo /etc/yum.repos.d
 
     #install mongodb
 RUN yum install -y mongodb-org \
