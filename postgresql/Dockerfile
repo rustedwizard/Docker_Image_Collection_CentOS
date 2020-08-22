@@ -3,6 +3,11 @@ FROM centos:7
      #specify gosu version
 ENV GOSU_VERSION=1.12
 
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+ENV LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 
+
     #add users for postgresql
 RUN groupadd -r postgres --gid=1000 \
     ; useradd -r -g postgres --uid=1000 --home-dir=/var/lib/postgresql --shell=/bin/bash postgres \
