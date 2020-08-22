@@ -1,0 +1,18 @@
+version: '3'
+services:
+  sqlserver:
+    image: rustedwizard/mssql:latest
+    container_name: sqlserver
+    environment:
+    # Remember to change your password
+      - SA_PASSWORD=your@PassWORD
+      - MSSQL_AGENT_ENABLED=True
+    ports:
+      - "1433:1433"
+    volumes: 
+       - SqlServerVolume:/var/opt/mssql
+
+volumes: 
+  SqlServerVolume:
+    driver: local
+    external: false

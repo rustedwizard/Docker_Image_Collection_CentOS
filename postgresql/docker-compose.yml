@@ -1,0 +1,17 @@
+version: '3'
+services:
+  postgresql:
+    image: rustedwizard/postgres:latest
+    container_name: postgres
+    environment:
+    # Remember to change your password
+      - POSTGRES_PASSWORD=your@PassWORD
+    ports:
+      - "5432:5432"
+    volumes: 
+       - PostgresVolume:/var/lib/postgresql/data
+
+volumes: 
+  PostgresVolume:
+    driver: local
+    external: false
