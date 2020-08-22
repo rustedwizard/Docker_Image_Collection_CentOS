@@ -10,6 +10,7 @@ RUN groupadd -r postgres --gid=1000 \
     ; mkdir /docker-entrypoint-initdb.d \
     #update yum database
     ; yum update -y \
+    ; yum upgrade -y \
     #install wget
     ; yum install -y wget \
     #download GOSU
@@ -18,7 +19,7 @@ RUN groupadd -r postgres --gid=1000 \
     ; chmod +x /usr/local/bin/gosu \
     #running gosu
     ; gosu nobody true \
-    #since postgresql already provide repo for postgresql 11 download, so this image will just take it and use it
+    #since postgresql already provide repo for postgresql 12 download, so this image will just take it and use it
     ; yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm -y \
     #install postgresql component
     ; yum install postgresql12 postgresql12-server -y \

@@ -11,6 +11,7 @@ RUN groupadd -r mongodb \
 RUN yum update -y \
     #install dependency
     ; yum install epel-release -y \
+    ; yum upgrade -y \
     #install needed tools and required libararies
     ; yum install jq wget numactl glibc-devel openssl gnupg -y
 

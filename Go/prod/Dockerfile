@@ -4,6 +4,7 @@ ENV GOLANG_VERSION 1.15
 
     #update yum database
 RUN yum update -y \
+    ; yum upgrade -y \
     #install needed tools
     ; yum install make glibc-devel gcc gcc-c++ wget pkgconfig -y \
     #clean up yum
