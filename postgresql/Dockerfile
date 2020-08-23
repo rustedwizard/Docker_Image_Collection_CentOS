@@ -27,7 +27,7 @@ RUN groupadd -r postgres --gid=1000 \
     #since postgresql already provide repo for postgresql 12 download, so this image will just take it and use it
     ; yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm -y \
     #install postgresql component
-    ; yum install postgresql12 postgresql12-server -y \
+    ; yum install postgresql12 postgresql12-server postgresql12-contrib postgresql12-client -y \
     #clean up yum database
     ; yum clean all \
     #make all neccsary directories for postgresql
