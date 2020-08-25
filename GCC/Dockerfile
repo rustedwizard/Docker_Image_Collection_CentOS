@@ -1,7 +1,5 @@
 FROM centos:7 AS BASE
 
-LABEL Maintainer="Rusted Wizard"
-
 ARG GCC_VERSION=gcc-10.2.0
 ARG MAKE_VERSION=make-4.3
 
@@ -23,29 +21,28 @@ RUN ./configure \
     ; make \
     ; make install 
 
-WORKDIR /
-
-RUN yum remove wget make -y \
-    ; rm -rf ${MAKE_VERSION} \
-    ; rm -f ${MAKE_VERSION}.tar.gz \
-    ; ln /usr/local/bin/make /bin/make
-
-# configure source
+# configure gcc source
 WORKDIR /build
-    # enable language support for C/C++ Fortran and Go, only compile for x86_64
+    # enable default language support, only compile for x86_64
 RUN ./../${GCC_VERSION}/configure --prefix=/usr/gcc --enable-languages=default --disable-multilib \
     # compile the code
     ; make -j 16 \
     # install
     ; make install
 
+# build final image
 FROM centos:7 AS PROD
 
+LABEL Maintainer="Rusted Wizard"
+
+#set environment
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64
 ENV PATH=/usr/local/bin:/usr/gcc/bin:$PATH
 
+#copy built binary
 COPY --from=BASE /usr /usr
 
+#install dependencies
 RUN yum update -y \
     ; yum install gmp-devel mpfr-devel libmpc-devel -y 
 
