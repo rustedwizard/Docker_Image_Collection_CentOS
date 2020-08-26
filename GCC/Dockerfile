@@ -36,7 +36,7 @@ FROM centos:7 AS PROD
 LABEL Maintainer="Rusted Wizard"
 
 #set environment
-ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64
+ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
 ENV PATH=/usr/local/bin:/usr/gcc/bin:$PATH
 
 #copy built binary
@@ -44,10 +44,12 @@ COPY --from=BASE /usr /usr
 
 #install dependencies
 RUN yum update -y \
-    ; yum install gmp-devel mpfr-devel libmpc-devel -y 
+    ; yum install gmp-devel mpfr-devel libmpc-devel -y \
+    ; echo '/usr/gcc/lib64' > /etc/ld.so.conf.d/local-lib64.conf \
+    ; ldconfig -v
 
 # cleanup
 WORKDIR /
 RUN yum clean all 
 
-CMD [ "bash"]
+CMD [ "bash" ] 
