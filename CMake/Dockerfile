@@ -38,11 +38,12 @@ ARG OPENSSL_VERSION=openssl-1.1.1g
 
 COPY --from=BUILD /openssl /openssl
 COPY --from=BUILD /cmake /cmake
+COPY --from=BUILD /usr/gcc/lib64 /cmake_lib64
 
-RUN yum update -y \
-    ; touch ${OPENSSL_VERSION}.conf \
+RUN touch ${OPENSSL_VERSION}.conf \
     ; echo "/openssl/lib" >> /${OPENSSL_VERSION}.conf \
     ; mv /${OPENSSL_VERSION}.conf /etc/ld.so.conf.d \
+    ; echo '/cmake_lib64' > /etc/ld.so.conf.d/local-lib64.conf \
     ; ldconfig -v
     
 ENV OPENSSL_ROOT_DIR=/openssl
