@@ -9,7 +9,7 @@ ARG PS_PACKAGE_URL=https://github.com/PowerShell/PowerShell/releases/download/v$
     #specify nodejs version needed
     #change follwoing two variable value will change
     #version of nodejs and yarn installed
-ENV NODE_VERSION=14.8.0
+ENV NODE_VERSION=14.9.0
 
 #powershell core ENVs
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \

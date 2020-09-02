@@ -3,7 +3,7 @@ FROM centos:7
     #specify nodejs version needed
     #change follwoing two variable value will change
     #version of nodejs and yarn installed
-ENV NODE_VERSION=14.8.0
+ENV NODE_VERSION=14.9.0
 
     #add user
 RUN groupadd --gid 1000 node \
