@@ -1,6 +1,6 @@
 FROM centos:7
 
-ENV GOLANG_VERSION 1.15
+ENV GOLANG_VERSION 1.15.1
 
     #update yum database
 RUN yum update -y \
