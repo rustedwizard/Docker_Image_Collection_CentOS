@@ -1,6 +1,10 @@
+#IF YOU ARE ON WINDOWS, READ THIS NOTE BEFORE CONTINUE:
+#This Dockerfile and the shell script named docker-entrypoint.sh must set to have line ending of LF instead of CRLF
+#otherwise, the built image will throw no such file or directory error.
+
 FROM centos:7
 
-     #specify gosu version
+    #specify gosu version
 ENV GOSU_VERSION=1.12
 
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
@@ -46,17 +50,17 @@ ENV PATH=$PATH:/usr/pgsql-12/bin \
     #create data directory
 RUN mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA" && chmod 777 "$PGDATA"
 
-       #specify volume
-       #if data persistence is needed this is the directory a volume should map to
+#specify volume
+#if data persistence is needed this is the directory a volume should map to
 VOLUME /var/lib/postgresql/data
 
-     #copy start up shell script
+#copy start up shell script
 COPY docker-entrypoint.sh /usr/local/bin/
 
-            #specify entry point
+#specify entry point
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-       #expose port
+#expose port
 EXPOSE 5432
 
 CMD ["postgres"]
