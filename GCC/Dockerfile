@@ -1,55 +1,39 @@
-FROM centos:7 AS BASE
+FROM centos:7
 
 ARG GCC_VERSION=gcc-10.2.0
 ARG MAKE_VERSION=make-4.3
 
-# install dependency
 RUN yum update -y \
     ; yum groupinstall "Development tools" -y \
-    ; yum install wget gmp-devel mpfr-devel libmpc-devel -y\ 
-    # get latest GCC source code
+    ; yum install wget -y\ 
     ; wget https://bigsearcher.com/mirrors/gcc/releases/${GCC_VERSION}/${GCC_VERSION}.tar.gz \
     ; wget https://ftp.gnu.org/gnu/make/${MAKE_VERSION}.tar.gz \
     ; tar -xf ${MAKE_VERSION}.tar.gz \
     ; tar -xf ${GCC_VERSION}.tar.gz \
-    ; rm -f ${GCC_VERSION}.tar.gz
-
-# build and install latest version make
-WORKDIR /${MAKE_VERSION}
-
-RUN ./configure \
+    ; rm -f ${GCC_VERSION}.tar.gz \
+    ; cd ${MAKE_VERSION} \
+    ; ./configure \
     ; make \
-    ; make install 
-
-# configure gcc source
-WORKDIR /build
-    # enable default language support, only compile for x86_64
-RUN ./../${GCC_VERSION}/configure --prefix=/usr/gcc --enable-languages=default --disable-multilib \
-    # compile the code
+    ; make install \
+    ; cd .. \
+    ; cd ${GCC_VERSION} \
+    ; ./contrib/download_prerequisites \
+    ; cd .. \
+    ; mkdir build \
+    ; cd build \
+    ; ./../${GCC_VERSION}/configure --enable-languages=default --disable-multilib \
     ; make -j 16 \
-    # install
-    ; make install
-
-# build final image
-FROM centos:7 AS PROD
-
-LABEL Maintainer="Rusted Wizard"
-
-#set environment
-ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
-ENV PATH=/usr/local/bin:/usr/gcc/bin:$PATH
-
-#copy built binary
-COPY --from=BASE /usr /usr
-
-#install dependencies
-RUN yum update -y \
-    ; yum install gmp-devel mpfr-devel libmpc-devel -y \
-    ; echo '/usr/gcc/lib64' > /etc/ld.so.conf.d/local-lib64.conf \
+    ; make install \
+    ; cd .. \
+    ; rm -rf /${GCC_VERSION} \
+    ; rm -rf /${MAKE_VERSION} \
+    ; rm -rf build \
+    ; rm -f ${MAKE_VERSION}.tar.gz \
+    ; yum group remove "Development tools" -y \
+    ; yum clean all -y \
+    ; echo '/usr/local/lib64' > /etc/ld.so.conf.d/local-lib64.conf \
     ; ldconfig -v
 
-# cleanup
-WORKDIR /
-RUN yum clean all 
+ENV PATH=/usr/bin:${PATH}
 
 CMD [ "bash" ] 
