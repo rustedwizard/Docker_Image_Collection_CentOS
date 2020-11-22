@@ -28,7 +28,7 @@ RUN groupadd -r postgres --gid=1000 \
     ; chmod +x /usr/local/bin/gosu \
     #running gosu
     ; gosu nobody true \
-    #since postgresql already provide repo for postgresql 12 download, so this image will just take it and use it
+    #since postgresql already provide repo for postgresql 13 download, so this image will just take it and use it
     ; yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm -y \
     #install postgresql component
     ; yum install postgresql13 postgresql13-server postgresql13-contrib postgresql13-client -y \
